@@ -1,0 +1,23 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: pybalebot
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Oleksandr
+    family-names: Onufriichuk
+    email: im@pybalebot.dev
+repository-code: 'https://github.com/pybalebot/pybalebot'
+url: 'https://pybalebot.dev'
+abstract: >-
+  pybalebot is a modern and fully asynchronous framework for
+  Bale Bot API written in Python using asyncio
+keywords:
+  - pybalebot
+  - bale
+  - bot
+license: MIT

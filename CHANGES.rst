@@ -1,0 +1,1175 @@
+=========
+Changelog
+=========
+
+..
+    You should *NOT* be adding new change log entries to this file, this
+    file is managed by towncrier. You *may* edit previous change logs to
+    fix problems like typo corrections or such.
+    To add a new change log entry, please see
+    https://pip.pypa.io/en/latest/development/#adding-a-news-entry
+    we named the news folder "CHANGES".
+
+    WARNING: Don't drop the next directive!
+
+.. towncrier-draft-entries:: |release| [UNRELEASED DRAFT]
+
+.. towncrier release notes start
+
+3.6.0 (2024-05-06)
+===================
+
+Features
+--------
+
+- Added full support of `Bot API 7.3 <https://core.bale.org/bots/api-changelog#may-6-2024>`_
+  `#1480 <https://github.com/pybalebot/pybalebot/issues/1480>`_
+
+
+Improved Documentation
+----------------------
+
+- Added bale objects transformation block in 2.x -> 3.x migration guide
+  `#1412 <https://github.com/pybalebot/pybalebot/issues/1412>`_
+
+
+3.5.0 (2024-04-23)
+===================
+
+Features
+--------
+
+- Added **message_thread_id** parameter to **ChatActionSender** class methods.
+  `#1437 <https://github.com/pybalebot/pybalebot/issues/1437>`_
+- Added context manager interface to Bot instance, from now you can use:
+
+  .. code-block:: python
+
+      async with Bot(...) as bot:
+          ...
+
+  instead of
+
+  .. code-block:: python
+
+      async with Bot(...).context() as bot:
+          ...
+  `#1468 <https://github.com/pybalebot/pybalebot/issues/1468>`_
+
+
+Bugfixes
+--------
+
+- - **WebAppUser Class Fields**: Added missing `is_premium`, `added_to_attachment_menu`, and `allows_write_to_pm` fields to `WebAppUser` class to align with the Bale API.
+
+  - **WebAppChat Class Implementation**: Introduced the `WebAppChat` class with all its fields (`id`, `type`, `title`, `username`, and `photo_url`) as specified in the Bale API, which was previously missing from the library.
+
+  - **WebAppInitData Class Fields**: Included previously omitted fields in the `WebAppInitData` class: `chat`, `chat_type`, `chat_instance`, to match the official documentation for a complete Bale Web Apps support.
+  `#1424 <https://github.com/pybalebot/pybalebot/issues/1424>`_
+- Fixed poll answer FSM context by handling :code:`voter_chat` for :code:`poll_answer` event
+  `#1436 <https://github.com/pybalebot/pybalebot/issues/1436>`_
+- Added missing error handling to :code:`_background_feed_update` (when in :code:`handle_in_background=True` webhook mode)
+  `#1458 <https://github.com/pybalebot/pybalebot/issues/1458>`_
+
+
+Improved Documentation
+----------------------
+
+- Added WebAppChat class to WebApp docs, updated uk_UA localisation of WebApp docs.
+  `#1433 <https://github.com/pybalebot/pybalebot/issues/1433>`_
+
+
+Misc
+----
+
+- Added full support of `Bot API 7.2 <https://core.bale.org/bots/api-changelog#march-31-2024>`_
+  `#1444 <https://github.com/pybalebot/pybalebot/issues/1444>`_
+- Loosened pydantic version upper restriction from ``<2.7`` to ``<2.8``
+  `#1460 <https://github.com/pybalebot/pybalebot/issues/1460>`_
+
+
+3.4.1 (2024-02-17)
+===================
+
+Bugfixes
+--------
+
+- Fixed JSON serialization of the :code:`LinkPreviewOptions` class while it is passed
+  as bot-wide default options.
+  `#1418 <https://github.com/pybalebot/pybalebot/issues/1418>`_
+
+
+3.4.0 (2024-02-16)
+===================
+
+Features
+--------
+
+- Reworked bot-wide globals like :code:`parse_mode`, :code:`disable_web_page_preview`, and others to be more flexible.
+
+  .. warning::
+
+      Note that the old way of setting these global bot properties is now deprecated and will be removed in the next major release.
+  `#1392 <https://github.com/pybalebot/pybalebot/issues/1392>`_
+- A new enum :code:`KeyboardButtonPollTypeType` for :code:`KeyboardButtonPollTypeType.type` field has bed added.
+  `#1398 <https://github.com/pybalebot/pybalebot/issues/1398>`_
+- Added full support of `Bot API 7.1 <https://core.bale.org/bots/api-changelog#february-16-2024>`_
+
+  - Added support for the administrator rights :code:`can_post_stories`, :code:`can_edit_stories`, :code:`can_delete_stories` in supergroups.
+  - Added the class :code:`ChatBoostAdded` and the field :code:`boost_added` to the class :code:`Message` for service messages about a user boosting a chat.
+  - Added the field :code:`sender_boost_count` to the class :code:`Message`.
+  - Added the field :code:`reply_to_story` to the class :code:`Message`.
+  - Added the fields :code:`chat` and :code:`id` to the class :code:`Story`.
+  - Added the field :code:`unrestrict_boost_count` to the class :code:`Chat`.
+  - Added the field :code:`custom_emoji_sticker_set_name` to the class :code:`Chat`.
+  `#1417 <https://github.com/pybalebot/pybalebot/issues/1417>`_
+
+
+Bugfixes
+--------
+
+- Update KeyboardBuilder utility, fixed type-hints for button method, adjusted limits of the different markup types to real world values.
+  `#1399 <https://github.com/pybalebot/pybalebot/issues/1399>`_
+- Added new :code:`reply_parameters` param to :code:`message.send_copy` because it hasn't been added there
+  `#1403 <https://github.com/pybalebot/pybalebot/issues/1403>`_
+
+
+Improved Documentation
+----------------------
+
+- Add notion "Working with plural forms" in documentation Utils -> Translation
+  `#1395 <https://github.com/pybalebot/pybalebot/issues/1395>`_
+
+
+3.3.0 (2023-12-31)
+===================
+
+Features
+--------
+
+- Added full support of `Bot API 7.0 <https://core.bale.org/bots/api-changelog#december-29-2023>`_
+
+  - Reactions
+  - Replies 2.0
+  - Link Preview Customization
+  - Block Quotation
+  - Multiple Message Actions
+  - Requests for multiple users
+  - Chat Boosts
+  - Giveaway
+  - Other changes
+  `#1387 <https://github.com/pybalebot/pybalebot/issues/1387>`_
+
+
+3.2.0 (2023-11-24)
+===================
+
+Features
+--------
+
+- Introduced Scenes feature that helps you to simplify user interactions using Finite State Machine.
+  Read more about 👉 :ref:`Scenes <Scenes>`.
+  `#1280 <https://github.com/pybalebot/pybalebot/issues/1280>`_
+- Added the new FSM strategy :code:`CHAT_TOPIC`, which sets the state for the entire topic in the chat, also works in private messages and regular groups without topics.
+  `#1343 <https://github.com/pybalebot/pybalebot/issues/1343>`_
+
+
+Bugfixes
+--------
+
+- Fixed :code:`parse_mode` argument in the in :code:`Message.send_copy` shortcut. Disable by default.
+  `#1332 <https://github.com/pybalebot/pybalebot/issues/1332>`_
+- Added ability to get handler flags from filters.
+  `#1360 <https://github.com/pybalebot/pybalebot/issues/1360>`_
+- Fixed a situation where a :code:`CallbackData` could not be parsed without a default value.
+  `#1368 <https://github.com/pybalebot/pybalebot/issues/1368>`_
+
+
+Improved Documentation
+----------------------
+
+- Corrected grammatical errors, improved sentence structures, translation for migration 2.x-3.x
+  `#1302 <https://github.com/pybalebot/pybalebot/issues/1302>`_
+- Minor typo correction, specifically in module naming + some grammar.
+  `#1340 <https://github.com/pybalebot/pybalebot/issues/1340>`_
+- Added `CITATION.cff` file for automatic academic citation generation.
+  Now you can copy citation from the GitHub page and paste it into your paper.
+  `#1351 <https://github.com/pybalebot/pybalebot/issues/1351>`_
+- Minor typo correction in middleware docs.
+  `#1353 <https://github.com/pybalebot/pybalebot/issues/1353>`_
+
+
+Misc
+----
+
+- Fixed ResourceWarning in the tests, reworked :code:`RedisEventsIsolation` fixture to use Redis connection from :code:`RedisStorage`
+  `#1320 <https://github.com/pybalebot/pybalebot/issues/1320>`_
+- Updated dependencies, bumped minimum required version:
+
+  - :code:`magic-filter` - fixed `.resolve` operation
+  - :code:`pydantic` - fixed compatibility (broken in 2.4)
+  - :code:`aiodns` - added new dependency to the :code:`fast` extras (:code:`pip install pybalebot[fast]`)
+  - *others...*
+  `#1327 <https://github.com/pybalebot/pybalebot/issues/1327>`_
+- Prevent update handling task pointers from being garbage collected, backport from 2.x
+  `#1331 <https://github.com/pybalebot/pybalebot/issues/1331>`_
+- Updated :code:`typing-extensions` package version range in dependencies to fix compatibility with :code:`FastAPI`
+  `#1347 <https://github.com/pybalebot/pybalebot/issues/1347>`_
+- Introduce Python 3.12 support
+  `#1354 <https://github.com/pybalebot/pybalebot/issues/1354>`_
+- Speeded up CallableMixin processing by caching references to nested objects and simplifying kwargs assembly.
+  `#1357 <https://github.com/pybalebot/pybalebot/issues/1357>`_
+- Added :code:`pydantic` v2.5 support.
+  `#1361 <https://github.com/pybalebot/pybalebot/issues/1361>`_
+- Updated :code:`thumbnail` fields type to :code:`InputFile` only
+  `#1372 <https://github.com/pybalebot/pybalebot/issues/1372>`_
+
+
+3.1.1 (2023-09-25)
+===================
+
+Bugfixes
+--------
+
+- Fixed `pydantic` version <2.4, since 2.4 has breaking changes.
+  `#1322 <https://github.com/pybalebot/pybalebot/issues/1322>`_
+
+
+3.1.0 (2023-09-22)
+===================
+
+Features
+--------
+
+- Added support for custom encoders/decoders for payload (and also for deep-linking).
+  `#1262 <https://github.com/pybalebot/pybalebot/issues/1262>`_
+- Added :class:`pybalebot.utils.input_media.MediaGroupBuilder` for media group construction.
+  `#1293 <https://github.com/pybalebot/pybalebot/issues/1293>`_
+- Added full support of `Bot API 6.9 <https://core.bale.org/bots/api-changelog#september-22-2023>`_
+  `#1319 <https://github.com/pybalebot/pybalebot/issues/1319>`_
+
+
+Bugfixes
+--------
+
+- Added actual param hints for `InlineKeyboardBuilder` and `ReplyKeyboardBuilder`.
+  `#1303 <https://github.com/pybalebot/pybalebot/issues/1303>`_
+- Fixed priority of events isolation, now user state will be loaded only after lock is acquired
+  `#1317 <https://github.com/pybalebot/pybalebot/issues/1317>`_
+
+
+3.0.0 (2023-09-01)
+===================
+
+Bugfixes
+--------
+
+- Replaced :code:`datetime.datetime` with `DateTime` type wrapper across types to make dumped JSONs object
+  more compatible with data that is sent by Bale.
+  `#1277 <https://github.com/pybalebot/pybalebot/issues/1277>`_
+- Fixed magic :code:`.as_(...)` operation for values that can be interpreted as `False` (e.g. `0`).
+  `#1281 <https://github.com/pybalebot/pybalebot/issues/1281>`_
+- Italic markdown from utils now uses correct decorators
+  `#1282 <https://github.com/pybalebot/pybalebot/issues/1282>`_
+- Fixed method :code:`Message.send_copy` for stickers.
+  `#1284 <https://github.com/pybalebot/pybalebot/issues/1284>`_
+- Fixed :code:`Message.send_copy` method, which was not working properly with stories, so not you can copy stories too (forwards messages).
+  `#1286 <https://github.com/pybalebot/pybalebot/issues/1286>`_
+- Fixed error overlapping when validation error is caused by remove_unset root validator in base types and methods.
+  `#1290 <https://github.com/pybalebot/pybalebot/issues/1290>`_
+
+
+3.0.0rc2 (2023-08-18)
+======================
+
+Bugfixes
+--------
+
+- Fixed missing message content types (:code:`ContentType.USER_SHARED`, :code:`ContentType.CHAT_SHARED`)
+  `#1252 <https://github.com/pybalebot/pybalebot/issues/1252>`_
+- Fixed nested hashtag, cashtag and email message entities not being parsed correctly when these entities are inside another entity.
+  `#1259 <https://github.com/pybalebot/pybalebot/issues/1259>`_
+- Moved global filters check placement into router to add chance to pass context from global filters
+  into handlers in the same way as it possible in other places
+  `#1266 <https://github.com/pybalebot/pybalebot/issues/1266>`_
+
+
+Improved Documentation
+----------------------
+
+- Added error handling example `examples/error_handling.py`
+  `#1099 <https://github.com/pybalebot/pybalebot/issues/1099>`_
+- Added a few words about skipping pending updates
+  `#1251 <https://github.com/pybalebot/pybalebot/issues/1251>`_
+- Added a section on Dependency Injection technology
+  `#1253 <https://github.com/pybalebot/pybalebot/issues/1253>`_
+- This update includes the addition of a multi-file bot example to the repository.
+  `#1254 <https://github.com/pybalebot/pybalebot/issues/1254>`_
+- Refactored examples code to use pybalebot enumerations and enhanced chat messages with markdown
+  beautification's for a more user-friendly display.
+  `#1256 <https://github.com/pybalebot/pybalebot/issues/1256>`_
+- Supplemented "Finite State Machine" section in Migration FAQ
+  `#1264 <https://github.com/pybalebot/pybalebot/issues/1264>`_
+- Removed extra param in docstring of BaleEventObserver's filter method
+  and fixed typo in I18n documentation.
+  `#1268 <https://github.com/pybalebot/pybalebot/issues/1268>`_
+
+
+Misc
+----
+
+- Enhanced the warning message in dispatcher to include a JSON dump of the update when update type is not known.
+  `#1269 <https://github.com/pybalebot/pybalebot/issues/1269>`_
+- Added support for `Bot API 6.8 <https://core.bale.org/bots/api-changelog#august-18-2023>`_
+  `#1275 <https://github.com/pybalebot/pybalebot/issues/1275>`_
+
+
+3.0.0rc1 (2023-08-06)
+======================
+
+Features
+--------
+
+- Added Currency enum.
+  You can use it like this:
+
+  .. code-block:: python
+
+      from pybalebot.enums import Currency
+
+      await bot.send_invoice(
+          ...,
+          currency=Currency.USD,
+          ...
+      )
+  `#1194 <https://github.com/pybalebot/pybalebot/issues/1194>`_
+- Updated keyboard builders with new methods for integrating buttons and keyboard creation more seamlessly.
+  Added functionality to create buttons from existing markup and attach another builder.
+  This improvement aims to make the keyboard building process more user-friendly and flexible.
+  `#1236 <https://github.com/pybalebot/pybalebot/issues/1236>`_
+- Added support for message_thread_id in ChatActionSender
+  `#1249 <https://github.com/pybalebot/pybalebot/issues/1249>`_
+
+
+Bugfixes
+--------
+
+- Fixed polling startup when "bot" key is passed manually into dispatcher workflow data
+  `#1242 <https://github.com/pybalebot/pybalebot/issues/1242>`_
+- Added codegen configuration for lost shortcuts:
+
+  - ShippingQuery.answer
+  - PreCheckoutQuery.answer
+  - Message.delete_reply_markup
+  `#1244 <https://github.com/pybalebot/pybalebot/issues/1244>`_
+
+
+Improved Documentation
+----------------------
+
+- Added documentation for webhook and polling modes.
+  `#1241 <https://github.com/pybalebot/pybalebot/issues/1241>`_
+
+
+Misc
+----
+
+- Reworked InputFile reading, removed :code:`__aiter__` method, added `bot: Bot` argument to
+  the :code:`.read(...)` method, so, from now URLInputFile can be used without specifying
+  bot instance.
+  `#1238 <https://github.com/pybalebot/pybalebot/issues/1238>`_
+- Code-generated :code:`__init__` typehints in types and methods to make IDE happy without additional pydantic plugin
+  `#1245 <https://github.com/pybalebot/pybalebot/issues/1245>`_
+
+
+3.0.0b9 (2023-07-30)
+=====================
+
+Features
+--------
+
+- Added new shortcuts for :class:`pybalebot.types.chat_member_updated.ChatMemberUpdated`
+  to send message to chat that member joined/left.
+  `#1234 <https://github.com/pybalebot/pybalebot/issues/1234>`_
+- Added new shortcuts for :class:`pybalebot.types.chat_join_request.ChatJoinRequest`
+  to make easier access to sending messages to users who wants to join to chat.
+  `#1235 <https://github.com/pybalebot/pybalebot/issues/1235>`_
+
+
+Bugfixes
+--------
+
+- Fixed bot assignment in the :code:`Message.send_copy` shortcut
+  `#1232 <https://github.com/pybalebot/pybalebot/issues/1232>`_
+- Added model validation to remove UNSET before field validation.
+  This change was necessary to correctly handle parse_mode where 'UNSET' is used as a sentinel value.
+  Without the removal of 'UNSET', it would create issues when passed to model initialization from Bot.method_name.
+  'UNSET' was also added to typing.
+  `#1233 <https://github.com/pybalebot/pybalebot/issues/1233>`_
+- Updated pydantic to 2.1 with few bugfixes
+
+
+Improved Documentation
+----------------------
+
+- Improved docs, added basic migration guide (will be expanded later)
+  `#1143 <https://github.com/pybalebot/pybalebot/issues/1143>`_
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed the use of the context instance (Bot.get_current) from all placements that were used previously.
+  This is to avoid the use of the context instance in the wrong place.
+  `#1230 <https://github.com/pybalebot/pybalebot/issues/1230>`_
+
+
+3.0.0b8 (2023-07-17)
+=====================
+
+Features
+--------
+
+- Added possibility to use custom events in routers (If router does not support custom event it does not break and passes it to included routers).
+  `#1147 <https://github.com/pybalebot/pybalebot/issues/1147>`_
+- Added support for FSM in Forum topics.
+
+  The strategy can be changed in dispatcher:
+
+  .. code-block:: python
+
+      from pybalebot.fsm.strategy import FSMStrategy
+      ...
+      dispatcher = Dispatcher(
+          fsm_strategy=FSMStrategy.USER_IN_TOPIC,
+          storage=...,  # Any persistent storage
+      )
+
+  .. note::
+
+      If you have implemented you own storages you should extend record key generation
+      with new one attribute - :code:`thread_id`
+  `#1161 <https://github.com/pybalebot/pybalebot/issues/1161>`_
+- Improved CallbackData serialization.
+
+  - Minimized UUID (hex without dashes)
+  - Replaced bool values with int (true=1, false=0)
+  `#1163 <https://github.com/pybalebot/pybalebot/issues/1163>`_
+- Added a tool to make text formatting flexible and easy.
+  More details on the :ref:`corresponding documentation page <formatting-tool>`
+  `#1172 <https://github.com/pybalebot/pybalebot/issues/1172>`_
+- Added :code:`X-Bale-Bot-Api-Secret-Token` header check
+  `#1173 <https://github.com/pybalebot/pybalebot/issues/1173>`_
+- Made :code:`allowed_updates` list to revolve automatically in start_polling method if not set explicitly.
+  `#1178 <https://github.com/pybalebot/pybalebot/issues/1178>`_
+- Added possibility to pass custom headers to :class:`URLInputFile` object
+  `#1191 <https://github.com/pybalebot/pybalebot/issues/1191>`_
+
+
+Bugfixes
+--------
+
+- Change type of result in InlineQueryResult enum for :code:`InlineQueryResultCachedMpeg4Gif`
+  and :code:`InlineQueryResultMpeg4Gif` to more correct according to documentation.
+
+  Change regexp for entities parsing to more correct (:code:`InlineQueryResultType.yml`).
+  `#1146 <https://github.com/pybalebot/pybalebot/issues/1146>`_
+- Fixed signature of startup/shutdown events to include the :code:`**dispatcher.workflow_data` as the handler arguments.
+  `#1155 <https://github.com/pybalebot/pybalebot/issues/1155>`_
+- Added missing :code:`FORUM_TOPIC_EDITED` value to content_type property
+  `#1160 <https://github.com/pybalebot/pybalebot/issues/1160>`_
+- Fixed compatibility with Python 3.8-3.9 (from previous release)
+  `#1162 <https://github.com/pybalebot/pybalebot/issues/1162>`_
+- Fixed the markdown spoiler parser.
+  `#1176 <https://github.com/pybalebot/pybalebot/issues/1176>`_
+- Fixed workflow data propagation
+  `#1196 <https://github.com/pybalebot/pybalebot/issues/1196>`_
+- Fixed the serialization error associated with nested subtypes
+  like InputMedia, ChatMember, etc.
+
+  The previously generated code resulted in an invalid schema under pydantic v2,
+  which has stricter type parsing.
+  Hence, subtypes without the specification of all subtype unions were generating
+  an empty object. This has been rectified now.
+  `#1213 <https://github.com/pybalebot/pybalebot/issues/1213>`_
+
+
+Improved Documentation
+----------------------
+
+- Changed small grammar typos for :code:`upload_file`
+  `#1133 <https://github.com/pybalebot/pybalebot/issues/1133>`_
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed text filter in due to is planned to remove this filter few versions ago.
+
+  Use :code:`F.text` instead
+  `#1170 <https://github.com/pybalebot/pybalebot/issues/1170>`_
+
+
+Misc
+----
+
+- Added full support of `Bot API 6.6 <https://core.bale.org/bots/api-changelog#march-9-2023>`_
+
+  .. danger::
+
+      Note that this issue has breaking changes described in the Bot API changelog,
+      this changes is not breaking in the API but breaking inside pybalebot because
+      Beta stage is not finished.
+  `#1139 <https://github.com/pybalebot/pybalebot/issues/1139>`_
+- Added full support of `Bot API 6.7 <https://core.bale.org/bots/api-changelog#april-21-2023>`_
+
+  .. warning::
+
+      Note that arguments *switch_pm_parameter* and *switch_pm_text* was deprecated
+      and should be changed to *button* argument as described in API docs.
+  `#1168 <https://github.com/pybalebot/pybalebot/issues/1168>`_
+- Updated `Pydantic to V2 <https://docs.pydantic.dev/2.0/migration/>`_
+
+  .. warning::
+
+      Be careful, not all libraries is already updated to using V2
+  `#1202 <https://github.com/pybalebot/pybalebot/issues/1202>`_
+- Added global defaults :code:`disable_web_page_preview` and :code:`protect_content` in addition to :code:`parse_mode` to the Bot instance,
+  reworked internal request builder mechanism.
+  `#1142 <https://github.com/pybalebot/pybalebot/issues/1142>`_
+- Removed bot parameters from storages
+  `#1144 <https://github.com/pybalebot/pybalebot/issues/1144>`_
+
+- Replaced ContextVar's with a new feature called `Validation Context <https://docs.pydantic.dev/latest/usage/validators/#validation-context>`_
+  in Pydantic to improve the clarity, usability, and versatility of handling the Bot instance within method shortcuts.
+
+  .. danger::
+
+    **Breaking**: The 'bot' argument now is required in `URLInputFile`
+  `#1210 <https://github.com/pybalebot/pybalebot/issues/1210>`_
+- Updated magic-filter with new features
+
+  - Added hint for :code:`len(F)` error
+  - Added not in operation
+  `#1221 <https://github.com/pybalebot/pybalebot/issues/1221>`_
+
+
+3.0.0b7 (2023-02-18)
+=====================
+
+.. warning::
+
+    Note that this version has incompatibility with Python 3.8-3.9 in case when you create an instance of Dispatcher outside of the any coroutine.
+
+    Sorry for the inconvenience, it will be fixed in the next version.
+
+    This code will not work:
+
+    .. code-block:: python
+
+        dp = Dispatcher()
+
+        def main():
+            ...
+            dp.run_polling(...)
+
+        main()
+
+    But if you change it like this it should works as well:
+
+    .. code-block:: python
+
+        router = Router()
+
+        async def main():
+            dp = Dispatcher()
+            dp.include_router(router)
+            ...
+            dp.start_polling(...)
+
+        asyncio.run(main())
+
+
+Features
+--------
+
+- Added missing shortcuts, new enums, reworked old stuff
+
+  **Breaking**
+  All previously added enums is re-generated in new place - `pybalebot.enums` instead of `pybalebot.types`
+
+  **Added enums:** :class:`pybalebot.enums.bot_command_scope_type.BotCommandScopeType`,
+      :class:`pybalebot.enums.chat_action.ChatAction`,
+      :class:`pybalebot.enums.chat_member_status.ChatMemberStatus`,
+      :class:`pybalebot.enums.chat_type.ChatType`,
+      :class:`pybalebot.enums.content_type.ContentType`,
+      :class:`pybalebot.enums.dice_emoji.DiceEmoji`,
+      :class:`pybalebot.enums.inline_query_result_type.InlineQueryResultType`,
+      :class:`pybalebot.enums.input_media_type.InputMediaType`,
+      :class:`pybalebot.enums.mask_position_point.MaskPositionPoint`,
+      :class:`pybalebot.enums.menu_button_type.MenuButtonType`,
+      :class:`pybalebot.enums.message_entity_type.MessageEntityType`,
+      :class:`pybalebot.enums.parse_mode.ParseMode`,
+      :class:`pybalebot.enums.poll_type.PollType`,
+      :class:`pybalebot.enums.sticker_type.StickerType`,
+      :class:`pybalebot.enums.topic_icon_color.TopicIconColor`,
+      :class:`pybalebot.enums.update_type.UpdateType`,
+
+  **Added shortcuts**:
+
+  - *Chat* :meth:`pybalebot.types.chat.Chat.get_administrators`,
+      :meth:`pybalebot.types.chat.Chat.delete_message`,
+      :meth:`pybalebot.types.chat.Chat.revoke_invite_link`,
+      :meth:`pybalebot.types.chat.Chat.edit_invite_link`,
+      :meth:`pybalebot.types.chat.Chat.create_invite_link`,
+      :meth:`pybalebot.types.chat.Chat.export_invite_link`,
+      :meth:`pybalebot.types.chat.Chat.do`,
+      :meth:`pybalebot.types.chat.Chat.delete_sticker_set`,
+      :meth:`pybalebot.types.chat.Chat.set_sticker_set`,
+      :meth:`pybalebot.types.chat.Chat.get_member`,
+      :meth:`pybalebot.types.chat.Chat.get_member_count`,
+      :meth:`pybalebot.types.chat.Chat.leave`,
+      :meth:`pybalebot.types.chat.Chat.unpin_all_messages`,
+      :meth:`pybalebot.types.chat.Chat.unpin_message`,
+      :meth:`pybalebot.types.chat.Chat.pin_message`,
+      :meth:`pybalebot.types.chat.Chat.set_administrator_custom_title`,
+      :meth:`pybalebot.types.chat.Chat.set_permissions`,
+      :meth:`pybalebot.types.chat.Chat.promote`,
+      :meth:`pybalebot.types.chat.Chat.restrict`,
+      :meth:`pybalebot.types.chat.Chat.unban`,
+      :meth:`pybalebot.types.chat.Chat.ban`,
+      :meth:`pybalebot.types.chat.Chat.set_description`,
+      :meth:`pybalebot.types.chat.Chat.set_title`,
+      :meth:`pybalebot.types.chat.Chat.delete_photo`,
+      :meth:`pybalebot.types.chat.Chat.set_photo`,
+  - *Sticker*: :meth:`pybalebot.types.sticker.Sticker.set_position_in_set`,
+      :meth:`pybalebot.types.sticker.Sticker.delete_from_set`,
+  - *User*: :meth:`pybalebot.types.user.User.get_profile_photos`
+  `#952 <https://github.com/pybalebot/pybalebot/issues/952>`_
+- Added :ref:`callback answer <callback-answer-util>` feature
+  `#1091 <https://github.com/pybalebot/pybalebot/issues/1091>`_
+- Added a method that allows you to compactly register routers
+  `#1117 <https://github.com/pybalebot/pybalebot/issues/1117>`_
+
+
+Bugfixes
+--------
+
+- Check status code when downloading file
+  `#816 <https://github.com/pybalebot/pybalebot/issues/816>`_
+- Fixed `ignore_case` parameter in :obj:`pybalebot.filters.command.Command` filter
+  `#1106 <https://github.com/pybalebot/pybalebot/issues/1106>`_
+
+
+Misc
+----
+
+- Added integration with new code-generator named `Butcher <https://github.com/pybalebot/butcher>`_
+  `#1069 <https://github.com/pybalebot/pybalebot/issues/1069>`_
+- Added full support of `Bot API 6.4 <https://core.bale.org/bots/api-changelog#december-30-2022>`_
+  `#1088 <https://github.com/pybalebot/pybalebot/issues/1088>`_
+- Updated package metadata, moved build internals from Poetry to Hatch, added contributing guides.
+  `#1095 <https://github.com/pybalebot/pybalebot/issues/1095>`_
+- Added full support of `Bot API 6.5 <https://core.bale.org/bots/api-changelog#february-3-2023>`_
+
+  .. danger::
+
+      Note that :obj:`pybalebot.types.chat_permissions.ChatPermissions` is updated without
+      backward compatibility, so now this object has no :code:`can_send_media_messages` attribute
+  `#1112 <https://github.com/pybalebot/pybalebot/issues/1112>`_
+- Replaced error :code:`TypeError: BaleEventObserver.__call__() got an unexpected keyword argument '<name>'`
+  with a more understandable one for developers and with a link to the documentation.
+  `#1114 <https://github.com/pybalebot/pybalebot/issues/1114>`_
+- Added possibility to reply into webhook with files
+  `#1120 <https://github.com/pybalebot/pybalebot/issues/1120>`_
+- Reworked graceful shutdown. Added method to stop polling.
+  Now polling started from dispatcher can be stopped by signals gracefully without errors (on Linux and Mac).
+  `#1124 <https://github.com/pybalebot/pybalebot/issues/1124>`_
+
+
+3.0.0b6 (2022-11-18)
+=====================
+
+Features
+--------
+
+- (again) Added possibility to combine filters with an *and*/*or* operations.
+
+  Read more in ":ref:`Combining filters <combining-filters>`" documentation section
+  `#1018 <https://github.com/pybalebot/pybalebot/issues/1018>`_
+- Added following methods to ``Message`` class:
+
+  - :code:`Message.forward(...)`
+  - :code:`Message.edit_media(...)`
+  - :code:`Message.edit_live_location(...)`
+  - :code:`Message.stop_live_location(...)`
+  - :code:`Message.pin(...)`
+  - :code:`Message.unpin()`
+  `#1030 <https://github.com/pybalebot/pybalebot/issues/1030>`_
+- Added following methods to :code:`User` class:
+
+  - :code:`User.mention_markdown(...)`
+  - :code:`User.mention_html(...)`
+  `#1049 <https://github.com/pybalebot/pybalebot/issues/1049>`_
+- Added full support of `Bot API 6.3 <https://core.bale.org/bots/api-changelog#november-5-2022>`_
+  `#1057 <https://github.com/pybalebot/pybalebot/issues/1057>`_
+
+
+Bugfixes
+--------
+
+- Fixed :code:`Message.send_invoice` and :code:`Message.reply_invoice`, added missing arguments
+  `#1047 <https://github.com/pybalebot/pybalebot/issues/1047>`_
+- Fixed copy and forward in:
+
+  - :code:`Message.answer(...)`
+  - :code:`Message.copy_to(...)`
+  `#1064 <https://github.com/pybalebot/pybalebot/issues/1064>`_
+
+
+Improved Documentation
+----------------------
+
+- Fixed UA translations in index.po
+  `#1017 <https://github.com/pybalebot/pybalebot/issues/1017>`_
+- Fix typehints for :code:`Message`, :code:`reply_media_group` and :code:`answer_media_group` methods
+  `#1029 <https://github.com/pybalebot/pybalebot/issues/1029>`_
+- Removed an old now non-working feature
+  `#1060 <https://github.com/pybalebot/pybalebot/issues/1060>`_
+
+
+Misc
+----
+
+- Enabled testing on Python 3.11
+  `#1044 <https://github.com/pybalebot/pybalebot/issues/1044>`_
+- Added a mandatory dependency :code:`certifi` in due to in some cases on systems that doesn't have updated ca-certificates the requests to Bot API fails with reason :code:`[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain`
+  `#1066 <https://github.com/pybalebot/pybalebot/issues/1066>`_
+
+
+3.0.0b5 (2022-10-02)
+=====================
+
+Features
+--------
+
+- Add PyPy support and run tests under PyPy
+  `#985 <https://github.com/pybalebot/pybalebot/issues/985>`_
+- Added message text to pybalebot exceptions representation
+  `#988 <https://github.com/pybalebot/pybalebot/issues/988>`_
+- Added warning about using magic filter from `magic_filter` instead of `pybalebot`'s ones.
+  Is recommended to use `from pybalebot import F` instead of `from magic_filter import F`
+  `#990 <https://github.com/pybalebot/pybalebot/issues/990>`_
+- Added more detailed error when server response can't be deserialized. This feature will help to debug unexpected responses from the Server
+  `#1014 <https://github.com/pybalebot/pybalebot/issues/1014>`_
+
+
+Bugfixes
+--------
+
+- Reworked error event, introduced :class:`pybalebot.types.error_event.ErrorEvent` object.
+  `#898 <https://github.com/pybalebot/pybalebot/issues/898>`_
+- Fixed escaping markdown in `pybalebot.utils.markdown` module
+  `#903 <https://github.com/pybalebot/pybalebot/issues/903>`_
+- Fixed polling crash when Bale Bot API raises HTTP 429 status-code.
+  `#995 <https://github.com/pybalebot/pybalebot/issues/995>`_
+- Fixed empty mention in command parsing, now it will be None instead of an empty string
+  `#1013 <https://github.com/pybalebot/pybalebot/issues/1013>`_
+
+
+Improved Documentation
+----------------------
+
+- Initialized Docs translation (added Ukrainian language)
+  `#925 <https://github.com/pybalebot/pybalebot/issues/925>`_
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed filters factory as described in corresponding issue.
+  `#942 <https://github.com/pybalebot/pybalebot/issues/942>`_
+
+
+Misc
+----
+
+- Now Router/Dispatcher accepts only keyword arguments.
+  `#982 <https://github.com/pybalebot/pybalebot/issues/982>`_
+
+
+3.0.0b4 (2022-08-14)
+=====================
+
+Features
+--------
+
+- Add class helper ChatAction for constants that Bale BotAPI uses in sendChatAction request.
+  In my opinion, this will help users and will also improve compatibility with 2.x version
+  where similar class was called "ChatActions".
+  `#803 <https://github.com/pybalebot/pybalebot/issues/803>`_
+- Added possibility to combine filters or invert result
+
+  Example:
+
+  .. code-block:: python
+
+      Text(text="demo") | Command(commands=["demo"])
+      MyFilter() & AnotherFilter()
+      ~StateFilter(state='my-state')
+
+  `#894 <https://github.com/pybalebot/pybalebot/issues/894>`_
+- Fixed type hints for redis TTL params.
+  `#922 <https://github.com/pybalebot/pybalebot/issues/922>`_
+- Added `full_name` shortcut for `Chat` object
+  `#929 <https://github.com/pybalebot/pybalebot/issues/929>`_
+
+
+Bugfixes
+--------
+
+- Fixed false-positive coercing of Union types in API methods
+  `#901 <https://github.com/pybalebot/pybalebot/issues/901>`_
+- Added 3 missing content types:
+
+  * proximity_alert_triggered
+  * supergroup_chat_created
+  * channel_chat_created
+  `#906 <https://github.com/pybalebot/pybalebot/issues/906>`_
+- Fixed the ability to compare the state, now comparison to copy of the state will return `True`.
+  `#927 <https://github.com/pybalebot/pybalebot/issues/927>`_
+- Fixed default lock kwargs in RedisEventIsolation.
+  `#972 <https://github.com/pybalebot/pybalebot/issues/972>`_
+
+
+Misc
+----
+
+- Restrict including routers with strings
+  `#896 <https://github.com/pybalebot/pybalebot/issues/896>`_
+- Changed CommandPatterType to CommandPatternType in `pybalebot/dispatcher/filters/command.py`
+  `#907 <https://github.com/pybalebot/pybalebot/issues/907>`_
+- Added full support of `Bot API 6.1 <https://core.bale.org/bots/api-changelog#june-20-2022>`_
+  `#936 <https://github.com/pybalebot/pybalebot/issues/936>`_
+- **Breaking!** More flat project structure
+
+  These packages was moved, imports in your code should be fixed:
+
+  - :code:`pybalebot.dispatcher.filters` -> :code:`pybalebot.filters`
+  - :code:`pybalebot.dispatcher.fsm` -> :code:`pybalebot.fsm`
+  - :code:`pybalebot.dispatcher.handler` -> :code:`pybalebot.handler`
+  - :code:`pybalebot.dispatcher.webhook` -> :code:`pybalebot.webhook`
+  - :code:`pybalebot.dispatcher.flags/*` -> :code:`pybalebot.dispatcher.flags` (single module instead of package)
+  `#938 <https://github.com/pybalebot/pybalebot/issues/938>`_
+- Removed deprecated :code:`router.<event>_handler` and :code:`router.register_<event>_handler` methods.
+  `#941 <https://github.com/pybalebot/pybalebot/issues/941>`_
+- Deprecated filters factory. It will be removed in next Beta (3.0b5)
+  `#942 <https://github.com/pybalebot/pybalebot/issues/942>`_
+- `MessageEntity` method `get_text` was removed and `extract` was renamed to `extract_from`
+  `#944 <https://github.com/pybalebot/pybalebot/issues/944>`_
+- Added full support of `Bot API 6.2 <https://core.bale.org/bots/api-changelog#august-12-2022>`_
+  `#975 <https://github.com/pybalebot/pybalebot/issues/975>`_
+
+
+3.0.0b3 (2022-04-19)
+=====================
+
+Features
+--------
+
+- Added possibility to get command magic result as handler argument
+  `#889 <https://github.com/pybalebot/pybalebot/issues/889>`_
+- Added full support of `Bale Bot API 6.0 <https://core.bale.org/bots/api-changelog#april-16-2022>`_
+  `#890 <https://github.com/pybalebot/pybalebot/issues/890>`_
+
+
+Bugfixes
+--------
+
+- Fixed I18n lazy-proxy. Disabled caching.
+  `#839 <https://github.com/pybalebot/pybalebot/issues/839>`_
+- Added parsing of spoiler message entity
+  `#865 <https://github.com/pybalebot/pybalebot/issues/865>`_
+- Fixed default `parse_mode` for `Message.copy_to()` method.
+  `#876 <https://github.com/pybalebot/pybalebot/issues/876>`_
+- Fixed CallbackData factory parsing IntEnum's
+  `#885 <https://github.com/pybalebot/pybalebot/issues/885>`_
+
+
+Misc
+----
+
+- Added automated check that pull-request adds a changes description to **CHANGES** directory
+  `#873 <https://github.com/pybalebot/pybalebot/issues/873>`_
+- Changed :code:`Message.html_text` and :code:`Message.md_text` attributes behaviour when message has no text.
+  The empty string will be used instead of raising error.
+  `#874 <https://github.com/pybalebot/pybalebot/issues/874>`_
+- Used `redis-py` instead of `aioredis` package in due to this packages was merged into single one
+  `#882 <https://github.com/pybalebot/pybalebot/issues/882>`_
+- Solved common naming problem with middlewares that confusing too much developers
+  - now you can't see the `middleware` and `middlewares` attributes at the same point
+  because this functionality encapsulated to special interface.
+  `#883 <https://github.com/pybalebot/pybalebot/issues/883>`_
+
+
+3.0.0b2 (2022-02-19)
+=====================
+
+Features
+--------
+
+- Added possibility to pass additional arguments into the aiohttp webhook handler to use this
+  arguments inside handlers as the same as it possible in polling mode.
+  `#785 <https://github.com/pybalebot/pybalebot/issues/785>`_
+- Added possibility to add handler flags via decorator (like `pytest.mark` decorator but `pybalebot.flags`)
+  `#836 <https://github.com/pybalebot/pybalebot/issues/836>`_
+- Added :code:`ChatActionSender` utility to automatically sends chat action while long process is running.
+
+  It also can be used as message middleware and can be customized via :code:`chat_action` flag.
+  `#837 <https://github.com/pybalebot/pybalebot/issues/837>`_
+
+
+Bugfixes
+--------
+
+- Fixed unexpected behavior of sequences in the StateFilter.
+  `#791 <https://github.com/pybalebot/pybalebot/issues/791>`_
+- Fixed exceptions filters
+  `#827 <https://github.com/pybalebot/pybalebot/issues/827>`_
+
+
+Misc
+----
+
+- Logger name for processing events is changed to :code:`pybalebot.events`.
+  `#830 <https://github.com/pybalebot/pybalebot/issues/830>`_
+- Added full support of Bale Bot API 5.6 and 5.7
+  `#835 <https://github.com/pybalebot/pybalebot/issues/835>`_
+- **BREAKING**
+  Events isolation mechanism is moved from FSM storages to standalone managers
+  `#838 <https://github.com/pybalebot/pybalebot/issues/838>`_
+
+
+3.0.0b1 (2021-12-12)
+=====================
+
+Features
+--------
+
+- Added new custom operation for MagicFilter named :code:`as_`
+
+  Now you can use it to get magic filter result as handler argument
+
+  .. code-block:: python
+
+      from pybalebot import F
+
+      ...
+
+      @router.message(F.text.regexp(r"^(\d+)$").as_("digits"))
+      async def any_digits_handler(message: Message, digits: Match[str]):
+          await message.answer(html.quote(str(digits)))
+
+
+      @router.message(F.photo[-1].as_("photo"))
+      async def download_photos_handler(message: Message, photo: PhotoSize, bot: Bot):
+          content = await bot.download(photo)
+  `#759 <https://github.com/pybalebot/pybalebot/issues/759>`_
+
+
+Bugfixes
+--------
+
+- Fixed: Missing :code:`ChatMemberHandler` import in :code:`pybalebot/dispatcher/handler`
+  `#751 <https://github.com/pybalebot/pybalebot/issues/751>`_
+
+
+Misc
+----
+
+- Check :code:`destiny` in case of no :code:`with_destiny` enabled in RedisStorage key builder
+  `#776 <https://github.com/pybalebot/pybalebot/issues/776>`_
+- Added full support of `Bot API 5.5 <https://core.bale.org/bots/api-changelog#december-7-2021>`_
+  `#777 <https://github.com/pybalebot/pybalebot/issues/777>`_
+- Stop using feature from #336. From now settings of client-session should be placed as initializer arguments instead of changing instance attributes.
+  `#778 <https://github.com/pybalebot/pybalebot/issues/778>`_
+- Make BaleAPIServer files wrapper in local mode bi-directional (server-client, client-server)
+  Now you can convert local path to server path and server path to local path.
+  `#779 <https://github.com/pybalebot/pybalebot/issues/779>`_
+
+
+3.0.0a18 (2021-11-10)
+======================
+
+Features
+--------
+
+- Breaking: Changed the signature of the session middlewares
+  Breaking: Renamed AiohttpSession.make_request method parameter from call to method to match the naming in the base class
+  Added middleware for logging outgoing requests
+  `#716 <https://github.com/pybalebot/pybalebot/issues/716>`_
+- Improved description of filters resolving error.
+  For example when you try to pass wrong type of argument to the filter but don't know why filter is not resolved now you can get error like this:
+
+  .. code-block:: python3
+
+      pybalebot.exceptions.FiltersResolveError: Unknown keyword filters: {'content_types'}
+        Possible cases:
+        - 1 validation error for ContentTypesFilter
+          content_types
+            Invalid content types {'42'} is not allowed here (type=value_error)
+  `#717 <https://github.com/pybalebot/pybalebot/issues/717>`_
+- **Breaking internal API change**
+  Reworked FSM Storage record keys propagation
+  `#723 <https://github.com/pybalebot/pybalebot/issues/723>`_
+- Implemented new filter named :code:`MagicData(magic_data)` that helps to filter event by data from middlewares or other filters
+
+  For example your bot is running with argument named :code:`config` that contains the application config then you can filter event by value from this config:
+
+  .. code-block:: python3
+
+      @router.message(magic_data=F.event.from_user.id == F.config.admin_id)
+      ...
+  `#724 <https://github.com/pybalebot/pybalebot/issues/724>`_
+
+
+Bugfixes
+--------
+
+- Fixed I18n context inside error handlers
+  `#726 <https://github.com/pybalebot/pybalebot/issues/726>`_
+- Fixed bot session closing before emit shutdown
+  `#734 <https://github.com/pybalebot/pybalebot/issues/734>`_
+- Fixed: bound filter resolving does not require children routers
+  `#736 <https://github.com/pybalebot/pybalebot/issues/736>`_
+
+
+Misc
+----
+
+- Enabled testing on Python 3.10
+  Removed `async_lru` dependency (is incompatible with Python 3.10) and replaced usage with protected property
+  `#719 <https://github.com/pybalebot/pybalebot/issues/719>`_
+- Converted README.md to README.rst and use it as base file for docs
+  `#725 <https://github.com/pybalebot/pybalebot/issues/725>`_
+- Rework filters resolving:
+
+  - Automatically apply Bound Filters with default values to handlers
+  - Fix data transfer from parent to included routers filters
+  `#727 <https://github.com/pybalebot/pybalebot/issues/727>`_
+- Added full support of Bot API 5.4
+  https://core.bale.org/bots/api-changelog#november-5-2021
+  `#744 <https://github.com/pybalebot/pybalebot/issues/744>`_
+
+
+3.0.0a17 (2021-09-24)
+======================
+
+Misc
+----
+
+- Added :code:`html_text` and :code:`md_text` to Message object
+  `#708 <https://github.com/pybalebot/pybalebot/issues/708>`_
+- Refactored I18n, added context managers for I18n engine and current locale
+  `#709 <https://github.com/pybalebot/pybalebot/issues/709>`_
+
+
+3.0.0a16 (2021-09-22)
+======================
+
+Features
+--------
+
+- Added support of local Bot API server files downloading
+
+  When Local API is enabled files can be downloaded via `bot.download`/`bot.download_file` methods.
+  `#698 <https://github.com/pybalebot/pybalebot/issues/698>`_
+- Implemented I18n & L10n support
+  `#701 <https://github.com/pybalebot/pybalebot/issues/701>`_
+
+
+Misc
+----
+
+- Covered by tests and docs KeyboardBuilder util
+  `#699 <https://github.com/pybalebot/pybalebot/issues/699>`_
+- **Breaking!!!**. Refactored and renamed exceptions.
+
+  - Exceptions module was moved from :code:`pybalebot.utils.exceptions` to :code:`pybalebot.exceptions`
+  - Added prefix `Bale` for all error classes
+  `#700 <https://github.com/pybalebot/pybalebot/issues/700>`_
+- Replaced all :code:`pragma: no cover` marks via global :code:`.coveragerc` config
+  `#702 <https://github.com/pybalebot/pybalebot/issues/702>`_
+- Updated dependencies.
+
+  **Breaking for framework developers**
+  Now all optional dependencies should be installed as extra: `poetry install -E fast -E redis -E proxy -E i18n -E docs`
+  `#703 <https://github.com/pybalebot/pybalebot/issues/703>`_
+
+
+3.0.0a15 (2021-09-10)
+======================
+
+Features
+--------
+
+- Ability to iterate over all states in StatesGroup.
+  pybalebot already had in check for states group so this is relative feature.
+  `#666 <https://github.com/pybalebot/pybalebot/issues/666>`_
+
+
+Bugfixes
+--------
+
+- Fixed incorrect type checking in the :class:`pybalebot.utils.keyboard.KeyboardBuilder`
+  `#674 <https://github.com/pybalebot/pybalebot/issues/674>`_
+
+
+Misc
+----
+
+- Disable ContentType filter by default
+  `#668 <https://github.com/pybalebot/pybalebot/issues/668>`_
+- Moved update type detection from Dispatcher to Update object
+  `#669 <https://github.com/pybalebot/pybalebot/issues/669>`_
+- Updated **pre-commit** config
+  `#681 <https://github.com/pybalebot/pybalebot/issues/681>`_
+- Reworked **handlers_in_use** util. Function moved to Router as method **.resolve_used_update_types()**
+  `#682 <https://github.com/pybalebot/pybalebot/issues/682>`_
+
+
+3.0.0a14 (2021-08-17)
+======================
+
+Features
+--------
+
+- add aliases for edit/delete reply markup to Message
+  `#662 <https://github.com/pybalebot/pybalebot/issues/662>`_
+- Reworked outer middleware chain. Prevent to call many times the outer middleware for each nested router
+  `#664 <https://github.com/pybalebot/pybalebot/issues/664>`_
+
+
+Bugfixes
+--------
+
+- Prepare parse mode for InputMessageContent in AnswerInlineQuery method
+  `#660 <https://github.com/pybalebot/pybalebot/issues/660>`_
+
+
+Improved Documentation
+----------------------
+
+- Added integration with :code:`towncrier`
+  `#602 <https://github.com/pybalebot/pybalebot/issues/602>`_
+
+
+Misc
+----
+
+- Added `.editorconfig`
+  `#650 <https://github.com/pybalebot/pybalebot/issues/650>`_
+- Redis storage speedup globals
+  `#651 <https://github.com/pybalebot/pybalebot/issues/651>`_
+- add allow_sending_without_reply param to Message reply aliases
+  `#663 <https://github.com/pybalebot/pybalebot/issues/663>`_

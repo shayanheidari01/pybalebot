@@ -1,0 +1,347 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pybalebot"
+description = 'Modern and fully asynchronous framework for Bale Bot API'
+readme = "README.rst"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    { name = "Alex Root Junior", email = "jroot.junior@gmail.com" },
+]
+maintainers = [
+    { name = "Alex Root Junior", email = "jroot.junior@gmail.com" },
+]
+keywords = [
+    "bale",
+    "bot",
+    "api",
+    "framework",
+    "wrapper",
+    "asyncio",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: AsyncIO",
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Communications :: Chat",
+]
+dependencies = [
+    "magic-filter>=1.0.12,<1.1",
+    "aiohttp~=3.9.0",
+    "pydantic>=2.4.1,<2.8",
+    "aiofiles~=23.2.1",
+    "certifi>=2023.7.22",
+    "typing-extensions>=4.7.0,<=5.0",
+]
+dynamic = ["version"]
+
+[tool.hatch.version]
+path = "pybalebot/__meta__.py"
+
+[project.optional-dependencies]
+fast = [
+    "uvloop>=0.17.0; (sys_platform == 'darwin' or sys_platform == 'linux') and platform_python_implementation != 'PyPy'",
+    "aiodns>=3.0.0",
+]
+redis = [
+    "redis[hiredis]~=5.0.1",
+]
+proxy = [
+    "aiohttp-socks~=0.8.3",
+]
+i18n = [
+    "Babel~=2.13.0",
+]
+cli = [
+    "pybalebot-cli~=1.0.3",
+]
+test = [
+    "pytest~=7.4.2",
+    "pytest-html~=4.0.2",
+    "pytest-asyncio~=0.21.1",
+    "pytest-lazy-fixture~=0.6.3",
+    "pytest-mock~=3.12.0",
+    "pytest-mypy~=0.10.3",
+    "pytest-cov~=4.1.0",
+    "pytest-aiohttp~=1.0.5",
+    "aresponses~=2.1.6",
+    "pytz~=2023.3",
+    "pycryptodomex~=3.19.0",
+]
+docs = [
+    "Sphinx~=7.2.6",
+    "sphinx-intl~=2.1.0",
+    "sphinx-autobuild~=2021.3.14",
+    "sphinx-copybutton~=0.5.2",
+    "furo~=2023.9.10",
+    "Sphinx-Substitution-Extensions~=2022.2.16",
+    "towncrier~=23.6.0",
+    "pygments~=2.16.1",
+    "pymdown-extensions~=10.3",
+    "markdown-include~=0.8.1",
+    "Pygments~=2.16.1",
+    "sphinxcontrib-towncrier~=0.3.2a0",
+]
+dev = [
+    "black~=23.10.0",
+    "isort~=5.12.0",
+    "ruff~=0.1.1",
+    "mypy~=1.6.1",
+    "toml~=0.10.2",
+    "pre-commit~=3.5.0",
+    "packaging~=23.1",
+]
+
+[project.urls]
+Homepage = "https://pybalebot.dev/"
+Documentation = "https://docs.pybalebot.dev/"
+Repository = "https://github.com/pybalebot/pybalebot/"
+
+[tool.hatch.envs.default]
+features = [
+    "dev",
+    "fast",
+    "redis",
+    "proxy",
+    "i18n",
+    "cli",
+]
+post-install-commands = [
+    "pre-commit install",
+]
+
+[tool.hatch.envs.default.scripts]
+reformat = [
+    "black pybalebot tests",
+    "isort pybalebot tests",
+]
+lint = "ruff pybalebot"
+
+[tool.hatch.envs.docs]
+features = [
+    "fast",
+    "redis",
+    "proxy",
+    "i18n",
+    "docs",
+    "cli",
+]
+[tool.hatch.envs.docs.scripts]
+serve = "sphinx-autobuild --watch pybalebot/ --watch CHANGELOG.rst --watch README.rst docs/ docs/_build/ {args}"
+
+[tool.hatch.envs.dev]
+python = "3.12"
+features = [
+    "dev",
+    "fast",
+    "redis",
+    "proxy",
+    "i18n",
+    "test",
+    "cli",
+]
+
+[tool.hatch.envs.dev.scripts]
+update = [
+    "butcher parse",
+    "butcher refresh",
+    "butcher apply all",
+]
+
+[tool.hatch.envs.test]
+features = [
+    "fast",
+    "redis",
+    "proxy",
+    "i18n",
+    "test",
+    "cli",
+]
+
+[tool.hatch.envs.test.scripts]
+cov = [
+    "pytest --cov-config pyproject.toml --cov=pybalebot --html=reports/py{matrix:python}/tests/index.html {args}",
+    "coverage html -d reports/py{matrix:python}/coverage",
+]
+cov-redis = [
+    "pytest --cov-config pyproject.toml --cov=pybalebot --html=reports/py{matrix:python}/tests/index.html --redis {env:REDIS_DNS:'redis://localhost:6379'} {args}",
+    "coverage html -d reports/py{matrix:python}/coverage",
+]
+view-cov = "google-chrome-stable reports/py{matrix:python}/coverage/index.html"
+
+
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310", "311", "312"]
+
+[tool.ruff]
+line-length = 99
+select = [
+    # "C", # TODO: mccabe - code complecity
+    "C4",
+    "E",
+    "F",
+    "T10",
+    "T20",
+    "Q",
+    "RET",
+]
+ignore = [
+    "F401"
+]
+src = ["pybalebot", "tests"]
+exclude = [
+    ".git",
+    "build",
+    "dist",
+    "venv",
+    ".venv",
+    "docs",
+    "tests",
+    "dev",
+    "scripts",
+    "*.egg-info",
+]
+target-version = "py310"
+
+[tool.ruff.isort]
+known-first-party = [
+    "pybalebot",
+    "finite_state_machine",
+    "handlers",
+    "routes",
+]
+
+[tool.ruff.per-file-ignores]
+"pybalebot/client/bot.py" = ["E501"]
+"pybalebot/types/*" = ["E501"]
+"pybalebot/methods/*" = ["E501"]
+"pybalebot/enums/*" = ["E501"]
+
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = [
+    "tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::pytest.PytestUnraisableExceptionWarning",
+]
+
+[tool.coverage.run]
+branch = false
+parallel = true
+omit = [
+    "pybalebot/__about__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if __name__ == .__main__.:",
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+    "@overload",
+]
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+python_version = "3.8"
+show_error_codes = true
+show_error_context = true
+pretty = true
+ignore_missing_imports = false
+warn_unused_configs = true
+disallow_subclassing_any = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+follow_imports_for_stubs = true
+namespace_packages = true
+show_absolute_path = true
+
+[[tool.mypy.overrides]]
+module = [
+    "aiofiles",
+    "async_lru",
+    "uvloop",
+    "redis.*",
+    "babel.*",
+]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+
+[tool.black]
+line-length = 99
+target-version = ['py38', 'py39', 'py310', 'py311']
+exclude = '''
+(
+    \.eggs
+  | \.git
+  | \.tox
+  | build
+  | dist
+  | venv
+  | docs
+)
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.towncrier]
+package = "pybalebot"
+filename = "CHANGES.rst"
+directory = "CHANGES/"
+template = "CHANGES/.template.rst.jinja2"
+issue_format = "`#{issue} <https://github.com/pybalebot/pybalebot/issues/{issue}>`_"
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bugfixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Improved Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Deprecations and Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Misc"
+showcontent = true
