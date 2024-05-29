@@ -22,7 +22,7 @@
     </a>
 </p>
 
-## Rubpy
+## PyBaleBot (ربات پیامرسان بله با پایتون)
 
 > Modern and fully asynchronous framework for Bale Bot API
 
